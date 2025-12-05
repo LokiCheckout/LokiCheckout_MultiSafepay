@@ -30,6 +30,5 @@ class PaymentComponentRepository extends ComponentRepository
 
         $quote = $this->getContext()->getCheckoutState()->getQuote();
         $quote->getPayment()->setAdditionalInformation($additionalInformation);
-        $this->getContext()->getCheckoutState()->saveQuote($quote);
     }
 }
