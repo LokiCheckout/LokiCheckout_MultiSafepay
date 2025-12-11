@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.13] - 11 December 2025
+### Fixed
+- iRemove redundant quote save
+
 ## [2.0.12] - 27 November 2025
 ### Fixed
 - Get component from Alpine store by name, not element ID
