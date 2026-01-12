@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.14] - 12 January 2026
+### Fixed
+- Make sure to install multisafepay/magento2-frontend
+- Add new GitHub Action workflows
+- Copy generic CI/CD files
+
 ## [2.0.13] - 11 December 2025
 ### Fixed
 - iRemove redundant quote save
