@@ -17,7 +17,8 @@
         "magento/module-payment": "^100.0",
         "magento/module-sales": "^103.0",
         "magento/module-store": "^101.0",
-        "multisafepay/magento2-core": "^3.9"
+        "multisafepay/magento2-core": "^3.9",
+        "multisafepay/magento2-frontend": "^2.12"
     },
     "require-dev": {
         "yireo/magento2-integration-test-helper": "~0.0"

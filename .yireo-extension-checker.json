@@ -1,6 +1,7 @@
 {
   "ignore": [
     "MultiSafepay_ConnectFrontend",
+    "multisafepay/magento2-frontend",
     "Loki_FieldComponents",
     "loki/magento2-field-components"
   ]
