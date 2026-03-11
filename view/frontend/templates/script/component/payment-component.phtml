@@ -78,7 +78,7 @@ use Magento\Framework\View\Element\Template;
 
                 if (PaymentComponent.hasErrors()) {
                     PaymentComponent.getErrors().errors.forEach(error => {
-                        Alpine.store('LokiComponents').get('LokiComponentsGlobalMessages').addError(error.message);
+                        Alpine.store('Message').addErrorMessage(error.message);
                     });
 
                     const component = Alpine.store('LokiComponents').get(this.componentName);
