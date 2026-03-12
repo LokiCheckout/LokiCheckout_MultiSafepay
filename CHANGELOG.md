@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.15] - 12 March 2026
+### Fixed
+- Wrong procedure of adding JS error message
+- Add integration flag to MODULE.json
+
 ## [2.0.14] - 12 January 2026
 ### Fixed
 - Make sure to install multisafepay/magento2-frontend
