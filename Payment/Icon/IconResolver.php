@@ -2,6 +2,7 @@
 
 namespace LokiCheckout\MultiSafepay\Payment\Icon;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Module\Manager as ModuleManager;
 use MultiSafepay\ConnectCore\Model\Ui\ConfigProviderPool;
 use LokiCheckout\Core\Payment\Icon\IconResolverContext;
@@ -27,6 +28,17 @@ class IconResolver implements IconResolverInterface
         }
 
         $configProvider = $this->configProviderPool->getConfigProviderByCode($paymentMethodCode);
-        return $iconResolverContext->getIconOutput($configProvider->getImage());
+
+        if (!$configProvider) {
+            return false;
+        }
+
+        try {
+            $image = $configProvider->getImage();
+        } catch (LocalizedException $localizedException) {
+            return false;
+        }
+
+        return $iconResolverContext->getIconOutput($image);
     }
 }
