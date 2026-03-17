@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.16] - 17 March 2026
+### Fixed
+- Update IconResolver.php
+
 ## [2.0.15] - 12 March 2026
 ### Fixed
 - Wrong procedure of adding JS error message
