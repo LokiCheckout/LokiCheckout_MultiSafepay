@@ -12,7 +12,8 @@ class IconResolver implements IconResolverInterface
 {
     public function __construct(
         private ModuleManager $moduleManager,
-        private ConfigProviderPool $configProviderPool
+        private ConfigProviderPool $configProviderPool,
+        private array $skipMethods = []
     ) {
     }
 
@@ -24,6 +25,10 @@ class IconResolver implements IconResolverInterface
         }
 
         if (!preg_match('/^multisafepay_(.*)$/', $paymentMethodCode)) {
+            return false;
+        }
+
+        if (in_array($paymentMethodCode, $this->skipMethods)) {
             return false;
         }
 
