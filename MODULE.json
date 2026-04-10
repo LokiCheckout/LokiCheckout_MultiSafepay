@@ -60,5 +60,15 @@
         "functional": 5
     },
     "phpcs_severity": "8",
-    "phpstan_level": "1"
+    "phpstan_level": "1",
+    "module_name": "LokiCheckout_MultiSafepay",
+    "composer_name": "loki-checkout/magento2-multi-safepay",
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false
 }
