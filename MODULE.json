@@ -8,8 +8,7 @@
         "Magento_Sales",
         "Magento_Store",
         "MultiSafepay_ConnectCore",
-        "MultiSafepay_ConnectFrontend",
-        "Yireo_IntegrationTestHelper"
+        "MultiSafepay_ConnectFrontend"
     ],
     "modules": [
         "LokiCheckout_Core",
