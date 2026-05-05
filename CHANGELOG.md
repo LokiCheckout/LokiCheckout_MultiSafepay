@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.17] - 05 May 2026
+### Fixed
+- Filter recurring methods from the checkout
+
 ## [2.0.16] - 17 March 2026
 ### Fixed
 - Update IconResolver.php
