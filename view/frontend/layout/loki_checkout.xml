@@ -21,5 +21,13 @@
                 template="LokiCheckout_MultiSafepay::script/component/payment-component.phtml"
             />
         </referenceBlock>
+
+        <referenceBlock name="loki-checkout.fast_checkout">
+            <block
+                name="loki-checkout-pay-nl.fast-checkout.paypal"
+                template="LokiCheckout_MultiSafepay::fast_checkout/paypal.phtml"
+            >
+            </block>
+        </referenceBlock>
     </body>
 </page>
