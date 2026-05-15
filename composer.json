@@ -1,7 +1,7 @@
 {
     "name": "loki-checkout/magento2-multi-safepay",
     "version": "2.0.17",
-    "description": "N/A",
+    "description": "Compatibility module for the MultiSafepay payment solution",
     "keywords": [
         "loki-checkout",
         "loki-checkout-category-payment"
