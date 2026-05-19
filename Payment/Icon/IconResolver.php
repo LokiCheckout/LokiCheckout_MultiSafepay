@@ -44,6 +44,6 @@ class IconResolver implements IconResolverInterface
             return false;
         }
 
-        return $iconResolverContext->getIconOutput($image);
+        return $iconResolverContext->getIconOutput($image, htmlAttributes: ['alt' => $paymentMethodCode]);
     }
 }
