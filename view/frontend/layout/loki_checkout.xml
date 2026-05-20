@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <head>
+        <remove src="MultiSafepay_ConnectFrontend::css/styles.css" />
+        <remove src="MultiSafepay_ConnectFrontend::css/select2.min.css" />
+    </head>
+
     <body>
         <referenceBlock name="head.additional">
             <block
