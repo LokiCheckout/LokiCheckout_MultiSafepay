@@ -31,6 +31,7 @@
         "Magento_Quote",
         "Magento_Rule",
         "Magento_Sales",
+        "Magento_SalesRule",
         "Magento_SalesSequence",
         "Magento_Shipping",
         "Magento_Store",
@@ -38,8 +39,7 @@
         "Magento_Vault",
         "MultiSafepay_ConnectCore",
         "MultiSafepay_ConnectFrontend",
-        "Yireo_CspUtilities",
-        "Yireo_IntegrationTestHelper"
+        "Yireo_CspUtilities"
     ],
     "components": [
         "loki-checkout.payment.methods.multisafepay_afterpay.form",
@@ -58,7 +58,7 @@
         "integration": 6,
         "functional": 5
     },
-    "phpcs_severity": "8",
+    "phpcs_severity": "7",
     "phpstan_level": "1",
     "module_name": "LokiCheckout_MultiSafepay",
     "composer_name": "loki-checkout/magento2-multi-safepay",

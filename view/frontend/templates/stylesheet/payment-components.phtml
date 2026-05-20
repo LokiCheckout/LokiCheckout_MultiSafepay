@@ -1,15 +1,17 @@
 <?php
 declare(strict_types=1);
 
-/** @version 2.0.16 */
-
+use Laminas\Escaper\Escaper;
 use Magento\Framework\View\Element\Template;
 use LokiCheckout\MultiSafepay\ViewModel\AssetConfig;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @version 2.0.17 */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var AssetConfig $assetConfig */
+/** @var Escaper $escaper */
+
 $assetConfig = $viewModelFactory->create(AssetConfig::class);
 ?>
-<link rel="stylesheet" href="<?= $escaper->escapeUrl($assetConfig->getComponentCssUrl()) ?>">
+<link rel="stylesheet" fetchpriority="low" href="<?= $escaper->escapeUrl($assetConfig->getComponentCssUrl()) ?>">

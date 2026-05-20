@@ -21,7 +21,8 @@
     </type>
 
     <type name="LokiCheckout\Core\Component\Checkout\Billing\PaymentMethods\PaymentMethodsRepository">
-        <plugin name="LokiCheckout_MultiSafepay::overrideDefaultPayment"
-                type="LokiCheckout\MultiSafepay\Plugin\PaymentMethodsRepositoryPlugin"/>
+        <plugin name="loki_checkout_filter_payment_methods"
+                type="LokiCheckout\MultiSafepay\Plugin\PaymentMethodsRepositoryPlugin"
+                sortOrder="10"/>
     </type>
 </config>
