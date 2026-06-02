@@ -39,7 +39,6 @@ class Wallet implements ArgumentInterface
             return '';
         }
 
-        curl_close($ch);
         $data = json_decode($response, true);
         if (isset($data['message'])) {
             $message = __('Failed to initialize MultiSafepay wallet') . ': '. $data['message'];
