@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.18] - 02 June 2026
+### Fixed
+- Load payment component CSS with fetchpriority=low
+- Remove legacy CSS
+- Add alt to payment images
+- WIP with Wallet behaviour
+- PLGMAG2V2-903: Add preselected method functionality
+
 ## [2.0.17] - 05 May 2026
 ### Fixed
 - Filter recurring methods from the checkout
