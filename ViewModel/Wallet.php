@@ -17,6 +17,7 @@ class Wallet implements ArgumentInterface
 
     public function getJsUrl(string $config): string
     {
+        /*
         $apiKey = $this->config->getApiKey($this->checkoutState->getQuote()->getStoreId());
         $currency = $this->checkoutState->getQuote()->getQuoteCurrencyCode();
 
@@ -47,6 +48,7 @@ class Wallet implements ArgumentInterface
         if (isset($data['data']['js_sdk_url'])) {
             return $data['data']['js_sdk_url'];
         }
+        */
 
         return '';
     }
