@@ -9,6 +9,7 @@
     "type": "magento2-module",
     "require": {
         "ext-pcre": "*",
+        "laminas/laminas-escaper": "^2.18",
         "loki-checkout/magento2-core": "^2.0",
         "loki/magento2-components": "^2.0",
         "loki/magento2-css-utils": "^1.0",
