@@ -17,7 +17,6 @@ class Wallet implements ArgumentInterface
 
     public function getJsUrl(string $config): string
     {
-        return '';
         $apiKey = $this->config->getApiKey($this->checkoutState->getQuote()->getStoreId());
         $currency = $this->checkoutState->getQuote()->getQuoteCurrencyCode();
 
