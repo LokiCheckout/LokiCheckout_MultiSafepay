@@ -112,7 +112,7 @@ jobs:
           bin/magento setup:upgrade
           bin/magento loki-checkout:modules:dump
 
-          magerun2 config:store:set loki_functional_tests/general/token loki -n
+          magerun2 config:store:set loki_checkout/functional_tests/token loki -n
 
           echo "Copying Magento to workspace..."
           mkdir -p $GITHUB_WORKSPACE/magento/
