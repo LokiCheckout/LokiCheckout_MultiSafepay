@@ -33,6 +33,7 @@ jobs:
         if: env.SKIP_JOB != 'true'
         run: |
           test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
+          rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
           cd /tmp/magento
           ls ${GITHUB_WORKSPACE}
           test -f ${GITHUB_WORKSPACE}/.github/workflows/composer-additional.sh && source ${GITHUB_WORKSPACE}/.github/workflows/composer-additional.sh

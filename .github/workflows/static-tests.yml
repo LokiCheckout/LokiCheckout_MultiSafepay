@@ -17,6 +17,7 @@ jobs:
           test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=$(jq -r '.phpcs_severity // 10' MODULE.json)
           test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=10
           echo "Testing for PHPCS severity $PHPCS_LEVEL"
+          rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
           cd /tmp/magento
           php vendor/bin/phpcs --standard=Magento2 --ignore=Test/,node_modules/ --colors --extensions=php,phtml --severity=$PHPCS_LEVEL ${GITHUB_WORKSPACE}
 
@@ -32,6 +33,7 @@ jobs:
       - name: Configure GitLab
         run: |
           test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
+          rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
           cd /tmp/magento
           test -f $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh
           test -f $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh
