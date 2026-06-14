@@ -7,8 +7,12 @@ export default {
         'MultiSafepay_ConnectCore',
         'MultiSafepay_ConnectFrontend',
     ],
+    secure_config: {
+        'multisafepay/general/test_api_key': process.env.MULTISAFEPAY_TEST_API_KEY || '',
+    },
     config: {
         ...coreConfig.config,
         'multisafepay/general/mode': 0,
+        'multisafepay/general/icon_type':'svg'
     }
 };

@@ -112,6 +112,7 @@ jobs:
           bin/magento loki-checkout:modules:dump
 
           magerun2 config:store:set loki_functional_tests/general/token loki -n
+          bin/magento cache:clean config
 
           echo "Copying Magento to workspace..."
           mkdir -p $GITHUB_WORKSPACE/magento/
