@@ -89,7 +89,8 @@ jobs:
           if [ -n "${GITLAB_TOKEN}" ]; then
             echo "Configuring GitLab"
             composer config gitlab-domains gitlab.yireo.com
-            composer config --global --auth http-basic.gitlab.yireo.com yireo "${GITLAB_TOKEN}"
+            composer config --global --auth http-basic.gitlab.yireo.com yireo "${{ secrets.GITLAB_TOKEN }}"
+            composer config --global --auth github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
             composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
             composer config repositories.loki-checkout-dev composer https://gitlab.yireo.com/api/v4/group/loki-checkout-dev/-/packages/composer/packages.json
             composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
@@ -112,7 +113,6 @@ jobs:
           bin/magento loki-checkout:modules:dump
 
           magerun2 config:store:set loki_functional_tests/general/token loki -n
-          bin/magento cache:clean config
 
           echo "Copying Magento to workspace..."
           mkdir -p $GITHUB_WORKSPACE/magento/

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        magento_version: ['2.4.5-p14', '2.4.7-p4', '2.4.7-p7', '2.4.8', '2.4.8-p1', '2.4.8-p2', '2.4.8-p3']
+        magento_version: ['2.4.7-p7', '2.4.8-p1', '2.4.8-p4', '2.4.9']
     container:
       image: yireo/magento2installed:${{ matrix.magento_version }}
     steps:
@@ -39,8 +39,10 @@ jobs:
           test -f ${GITHUB_WORKSPACE}/.github/workflows/composer-${{ matrix.magento_version }}.sh && source ${GITHUB_WORKSPACE}/.github/workflows/composer-${{ matrix.magento_version }}.sh
           composer config gitlab-domains gitlab.yireo.com
           composer config --global --auth http-basic.gitlab.yireo.com yireo "${{ secrets.GITLAB_TOKEN }}"
+          composer config --global --auth github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
           composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
           composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+          composer config repositories.loki-checkout-dev composer https://gitlab.yireo.com/api/v4/group/loki-checkout-dev/-/packages/composer/packages.json
 
       - name: Add module source
         if: env.SKIP_JOB != 'true'
