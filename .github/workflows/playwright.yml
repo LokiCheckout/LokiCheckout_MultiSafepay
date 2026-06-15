@@ -5,7 +5,7 @@ jobs:
   playwright:
     runs-on: ubuntu-latest
     container:
-      image: yireo/magento2playwright:2.4.8-p4
+      image: yireo/magento2installed:2.4.8-p4
 
     env:
       GIT_DEPTH: 1
