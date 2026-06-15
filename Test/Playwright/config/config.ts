@@ -6,6 +6,7 @@ export default {
         'LokiCheckout_MultiSafepay',
         'MultiSafepay_ConnectCore',
         'MultiSafepay_ConnectFrontend',
+        'MultiSafepay_ConnectAdminhtml',
     ],
     secure_config: {
         'multisafepay/general/test_api_key': process.env.MULTISAFEPAY_TEST_API_KEY || '',
