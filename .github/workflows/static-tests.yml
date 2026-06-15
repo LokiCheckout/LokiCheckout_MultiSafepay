@@ -11,13 +11,16 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
 
+      - name: Cleanup PHP
+        run: |
+          test -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini || true
+
       - name: Run Magento 2 PHPCS Tests
         run: |
           PHPCS_LEVEL=${{ env.PHPCS_LEVEL }}
           test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=$(jq -r '.phpcs_severity // 10' MODULE.json)
           test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=10
           echo "Testing for PHPCS severity $PHPCS_LEVEL"
-          rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
           cd /tmp/magento
           php vendor/bin/phpcs --standard=Magento2 --ignore=Test/,node_modules/ --colors --extensions=php,phtml --severity=$PHPCS_LEVEL ${GITHUB_WORKSPACE}
 
@@ -32,7 +35,7 @@ jobs:
 
       - name: Cleanup PHP
         run: |
-          rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+          test -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini || true
 
       - name: Configure GitLab
         run: |
@@ -47,6 +50,7 @@ jobs:
       - name: Configure Magento Marketplace
         run: |
           test -n "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" || exit 0
+          cd /tmp/magento
           composer config --global --auth http-basic.repo.magento.com "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" "${{ secrets.MAGENTO_MARKETPLACE_PRIVATE_KEY }}"
 
       - name: Configure composer
@@ -58,7 +62,6 @@ jobs:
 
       - name: Setting up module variables
         run: |
-          cd ${GITHUB_WORKSPACE}
           echo COMPOSER_NAME=`jq '.name' composer.json -r` >> $GITHUB_ENV
           echo MAGENTO_MODULE=`jq '.module_name' MODULE.json -r` >> $GITHUB_ENV
 
@@ -69,9 +72,9 @@ jobs:
           cd /tmp/magento
           composer config repositories.local-source path package-source/
           composer config --no-plugins allow-plugins true
-          composer remove --no-update --dev magento/magento-coding-standard
-          test -z "$COMPOSER_DEV_REQUIREMENTS" || composer require -n --no-update --dev $COMPOSER_DEV_REQUIREMENTS
-          composer require -n --no-update --dev --prefer-source -- phpstan/phpstan:^2.0 bitexpert/phpstan-magento:^0.42 phpstan/extension-installer
+          composer remove --dev magento/magento-coding-standard
+          test -z "$COMPOSER_DEV_REQUIREMENTS" || composer require -n ---no-update -dev $COMPOSER_DEV_REQUIREMENTS
+          composer require -n ---no-update -dev --prefer-source -- phpstan/phpstan:^2.0 bitexpert/phpstan-magento:^0.42 phpstan/extension-installer
           composer require -n --no-update --prefer-source -- ${COMPOSER_NAME}:@dev yireo/magento2-integration-test-helper
           composer update -n --prefer-source
 
@@ -83,5 +86,5 @@ jobs:
           echo "Testing for PHPStan level $PHPSTAN_LEVEL"
           cd /tmp/magento
           MODULE_PATH=$(realpath vendor/${COMPOSER_NAME})
-          php -d memory_limit=4G vendor/bin/phpstan analyse -n --level $PHPSTAN_LEVEL $MODULE_PATH
+          php -d memory_limit=-1 vendor/bin/phpstan analyse -n --level $PHPSTAN_LEVEL $MODULE_PATH
 

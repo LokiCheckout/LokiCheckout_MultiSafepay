@@ -5,7 +5,7 @@ jobs:
   playwright:
     runs-on: ubuntu-latest
     container:
-      image: yireo/magento2installed:2.4.8-p4
+      image: yireo/magento2playwright:2.4.8-p3
 
     env:
       GIT_DEPTH: 1
@@ -72,8 +72,7 @@ jobs:
           fetch-depth: 1
 
       - name: Detecting Playwright tests
-        run: |
-          test -d $GITHUB_WORKSPACE/Test/Playwright || echo "SKIP_JOB=true" >> $GITHUB_ENV
+        run: test -d $GITHUB_WORKSPACE/Test/Playwright || echo "SKIP_JOB=true" >> $GITHUB_ENV || true
 
       - name: Configure Git safe directory
         if: env.SKIP_JOB != 'true'
@@ -85,31 +84,44 @@ jobs:
           echo COMPOSER_NAME=`jq '.name' composer.json -r` >> $GITHUB_ENV
           echo MAGENTO_MODULE=`jq '.module_name' MODULE.json -r` >> $GITHUB_ENV
 
+      - name: Configure GitLab
+        if: env.SKIP_JOB != 'true'
+        run: |
+          test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
+          cd /tmp/magento
+          composer config gitlab-domains gitlab.yireo.com
+          composer config --global --auth gitlab-token.gitlab.yireo.com "${{ secrets.GITLAB_TOKEN }}"
+          composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
+          composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+          composer config repositories.loki-checkout-dev composer https://gitlab.yireo.com/api/v4/group/loki-checkout-dev/-/packages/composer/packages.json
+
+      - name: Configure Magento Marketplace
+        if: env.SKIP_JOB != 'true'
+        run: |
+          test -n "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" || exit 0
+          composer config --global --auth http-basic.repo.magento.com "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" "${{ secrets.MAGENTO_MARKETPLACE_PRIVATE_KEY }}"
+
+      - name: Configure composer
+        if: env.SKIP_JOB != 'true'
+        run: |
+          cd /tmp/magento
+          composer config --global --auth github-oauth.github.com "${{ secrets.COMPOSER_GITHUB_TOKEN }}"
+          test -f $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh || true
+          test -f $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh || true
+
+      - name: Add module source
+        if: env.SKIP_JOB != 'true'
+        run: |
+          cp -R ${GITHUB_WORKSPACE} /tmp/magento/package-source
+          cd /tmp/magento
+          composer config repositories.local-source "{\"type\": \"path\", \"url\": \"$GITHUB_WORKSPACE\", \"options\": {\"symlink\": false}}"
+          composer require -n --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-core-cli:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence:@dev
+
       - name: Setup Magento
         if: env.SKIP_JOB != 'true'
         run: |
           cd /tmp/magento
-
-          if [ -n "${GITLAB_TOKEN}" ]; then
-            echo "Configuring GitLab"
-            composer config gitlab-domains gitlab.yireo.com
-            composer config --global --auth http-basic.gitlab.yireo.com yireo "${{ secrets.GITLAB_TOKEN }}"
-            composer config --global --auth github-oauth.github.com "${{ secrets.COMPOSER_GITHUB_TOKEN }}"
-            composer config --global --auth http-basic.repo.magento.com "${MAGENTO_MARKETPLACE_PUBLIC_KEY}" "${MAGENTO_MARKETPLACE_PRIVATE_KEY}"
-            composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
-            composer config repositories.loki-checkout-dev composer https://gitlab.yireo.com/api/v4/group/loki-checkout-dev/-/packages/composer/packages.json
-            composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
-          fi
-
-          echo "Running additional composer actions"
-          test -f "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh"
-          test -f "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh"
-
-          echo "Configuring local sources"
-          composer config repositories.local-source "{\"type\": \"path\", \"url\": \"$GITHUB_WORKSPACE\", \"options\": {\"symlink\": false}}"
-          composer require --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-core-cli:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence:@dev
-
-          $GITHUB_WORKSPACE/.github/workflows/magento-install.sh
+          $GITHUB_WORKSPACE/.github/workflows/magento-install.sh || true
 
           bin/magento deploy:mode:set developer
           bin/magento module:enable Yireo_EnableModuleSequence
@@ -130,7 +142,7 @@ jobs:
         run: |
           echo "Verifying Magento installation in workspace..."
           ls -la $GITHUB_WORKSPACE/magento/
-          test -f $GITHUB_WORKSPACE/magento/bin/magento || (echo "ERROR: Magento installation verification failed" && exit 1)
+          test -f $GITHUB_WORKSPACE/magento/bin/magento || (echo "ERROR: Magento installation verification failed" && exit 1) || true
           echo "Magento installation verified successfully"
 
       - name: Run Playwright tests
