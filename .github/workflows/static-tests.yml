@@ -73,10 +73,9 @@ jobs:
           composer config repositories.local-source path package-source/
           composer config --no-plugins allow-plugins true
           composer remove --dev magento/magento-coding-standard
-          test -z "$COMPOSER_DEV_REQUIREMENTS" || composer require -n ---no-update -dev $COMPOSER_DEV_REQUIREMENTS
-          composer require -n ---no-update -dev --prefer-source -- phpstan/phpstan:^2.0 bitexpert/phpstan-magento:^0.42 phpstan/extension-installer
-          composer require -n --no-update --prefer-source -- ${COMPOSER_NAME}:@dev yireo/magento2-integration-test-helper
-          composer update -n --prefer-source
+          test -z "$COMPOSER_DEV_REQUIREMENTS" || composer require -n --dev $COMPOSER_DEV_REQUIREMENTS
+          composer require -n --dev --prefer-source -- phpstan/phpstan:^2.0 bitexpert/phpstan-magento:^0.42 phpstan/extension-installer
+          composer require -n --prefer-source -- ${COMPOSER_NAME}:@dev
 
       - name: Run Magento 2 PHPStan Tests
         run: |
