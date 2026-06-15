@@ -75,6 +75,10 @@ jobs:
         run: |
           test -d $GITHUB_WORKSPACE/Test/Playwright || echo "SKIP_JOB=true" >> $GITHUB_ENV
 
+      - name: Configure Git safe directory
+        if: env.SKIP_JOB != 'true'
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Setting up module variables
         if: env.SKIP_JOB != 'true'
         run: |
