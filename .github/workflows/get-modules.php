@@ -6,22 +6,13 @@ use Magento\Framework\Component\ComponentRegistrar;
 $moduleNames = array_keys((new ComponentRegistrar)->getPaths('module'));
 $disableModules = [];
 
-// @todo PayPal, LoginAsCustomer, Swissup, Magento_SampleData, newrelic
-if (in_array('disable-core=true', $argv)) {
+if (in_array('disable-bundled=true', $argv)) {
     foreach ($moduleNames as $moduleName) {
-        $matches = ['paypal', 'swissup', 'newrelic', 'loginascustomer'];
+        $matches = ['sampledata', 'paypal', 'swissup', 'newrelic', 'loginascustomer', 'swagger'];
         foreach ($matches as $match) {
             if (stristr($moduleName, $match)) {
                 $disableModules[] = $moduleName;
             }
-        }
-    }
-}
-
-if (in_array('disable-sample-data=true', $argv)) {
-    foreach ($moduleNames as $moduleName) {
-        if (stristr($moduleName, 'sampledata')) {
-            $disableModules[] = $moduleName;
         }
     }
 }

@@ -34,7 +34,7 @@ if [ "${ready:-0}" -ne 1 ]; then
   exit 1
 fi
 
-DISABLE_MODULES=`php $GITHUB_WORKSPACE/.github/workflows/get-modules.php disable-graphql=$DISABLE_GRAPHQL disable-inventory=$DISABLE_INVENTORY disable-adobe=$DISABLE_ADOBE`
+DISABLE_MODULES=`php $GITHUB_WORKSPACE/.github/workflows/get-modules.php disable-bundled=$DISABLE_BUNDLED disable-graphql=$DISABLE_GRAPHQL disable-inventory=$DISABLE_INVENTORY disable-adobe=$DISABLE_ADOBE`
  
 cd /tmp/magento
 php -dmemory_limit=-1 bin/magento setup:install \

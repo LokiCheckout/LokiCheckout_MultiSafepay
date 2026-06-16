@@ -38,6 +38,7 @@ jobs:
       DISABLE_INVENTORY: true
       DISABLE_GRAPHQL: true
       DISABLE_ADOBE: true
+      DISABLE_BUNDLED: true
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
     services:
@@ -138,6 +139,7 @@ jobs:
           bin/magento loki-checkout:modules:dump
 
           magerun2 config:store:set loki_checkout/functional_tests/token loki -n
+          bin/magento cache:clean config
 
       - name: Verify Magento installation
         if: env.SKIP_JOB != 'true'
