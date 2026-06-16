@@ -77,6 +77,11 @@ jobs:
       - name: Detecting Playwright tests
         run: test -d $GITHUB_WORKSPACE/Test/Playwright || echo "SKIP_JOB=true" >> $GITHUB_ENV || true
 
+      - name: Cleanup PHP
+        if: env.SKIP_JOB != 'true'
+        run: |
+          test -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini || true
+
       - name: Configure Git safe directory
         if: env.SKIP_JOB != 'true'
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -154,10 +159,9 @@ jobs:
 
           echo "Creating .env file..."
           printf "TEST_URL=http://127.0.0.1:8888\nTEST_TOKEN=loki\n" > .env
-          cat .env
 
-          echo "Running Playwright tests for project: ${MAGENTO_MODULE}"
-          CI=true TEST_TOKEN=loki MAGENTO_ROOT=$GITWORK_WORKSPACE/magento npx playwright test --project=${MAGENTO_MODULE}
+          echo "Running Playwright tests for project ${MAGENTO_MODULE}"
+          CI=true TEST_TOKEN=loki MAGENTO_ROOT=/tmp/magento npx playwright test --project=${MAGENTO_MODULE}
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
