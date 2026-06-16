@@ -4,6 +4,7 @@ export default {
     ...coreConfig,
     modules: [
         'LokiCheckout_MultiSafepay',
+        'LokiCheckout_MultiSafepayDevTools',
         'MultiSafepay_ConnectCore',
         'MultiSafepay_ConnectFrontend',
         'MultiSafepay_ConnectAdminhtml',

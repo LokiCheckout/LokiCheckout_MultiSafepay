@@ -133,8 +133,6 @@ jobs:
           bin/magento loki-checkout:modules:dump
 
           magerun2 config:store:set loki_checkout/functional_tests/token loki -n
-          composer show loki-checkout/magento2-functional-tests
-          composer why loki-checkout/magento2-functional-tests
 
       - name: Verify Magento installation
         if: env.SKIP_JOB != 'true'
@@ -151,7 +149,7 @@ jobs:
 
           echo "Installing npm dependencies..."
           # @todo: Add package-json.lock and run npm ci
-          npm install 
+          npm install
           npx playwright install chromium
 
           echo "Creating .env file..."
@@ -159,7 +157,7 @@ jobs:
           cat .env
 
           echo "Running Playwright tests for project: ${MAGENTO_MODULE}"
-          CI=true MAGENTO_ROOT=$GITWORK_WORKSPACE/magento npx playwright test --project=${MAGENTO_MODULE}
+          CI=true TEST_TOKEN=loki MAGENTO_ROOT=$GITWORK_WORKSPACE/magento npx playwright test --project=${MAGENTO_MODULE}
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
