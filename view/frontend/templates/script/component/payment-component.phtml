@@ -54,7 +54,7 @@ use Magento\Framework\View\Element\Template;
                             component.setValid(false);
                         }
                     },
-                    onValidation: (state) => {
+                    onValidation(state) {
                         if (true !== state.valid) {
                             return;
                         }
