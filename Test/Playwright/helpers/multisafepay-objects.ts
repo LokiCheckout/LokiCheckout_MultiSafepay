@@ -21,14 +21,14 @@ export class MultiSafepayPortal {
     }
 
     async expectTestPaymentPage() {
-        await expect(this.page).toHaveURL(/testpayv2.multisafepay.com/, {timeout: 30000});
+        await expect(this.page).toHaveURL(/testpayv2.multisafepay.com/, {timeout: 10000});
 
         const body = await this.page.locator('body');
         await expect(body).toHaveText(/Test shop/);
     }
 
     async expectTestIdealPage() {
-        await expect(this.page).toHaveURL(/testpay.multisafepay.com\/sim\/ideal2/, {timeout: 30000});
+        await expect(this.page).toHaveURL(/testpay.multisafepay.com\/sim\/ideal2/, {timeout: 10000});
 
         const body = await this.page.locator('body');
         await expect(body).toHaveText(/Test Scenario/);

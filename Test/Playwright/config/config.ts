@@ -14,8 +14,8 @@ export default {
     },
     config: {
         ...coreConfig.config,
-        'multisafepay/general/preselected_method': '',
         'multisafepay/general/mode': 0,
+        'multisafepay/general/preselected_method': '',
         'multisafepay/general/icon_type':'svg'
     }
 };
