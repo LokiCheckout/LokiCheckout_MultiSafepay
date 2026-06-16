@@ -5,10 +5,16 @@ require 'vendor/autoload.php';
 use Magento\Framework\Component\ComponentRegistrar;
 $moduleNames = array_keys((new ComponentRegistrar)->getPaths('module'));
 $disableModules = [];
+    
+foreach ($moduleNames as $moduleName) {
+    if (!preg_match('/^Magento_/', $moduleName)) {
+        $disableModules[] = $moduleName;
+    }
+}
 
 if (in_array('disable-bundled=true', $argv)) {
     foreach ($moduleNames as $moduleName) {
-        $matches = ['sampledata', 'paypal', 'swissup', 'newrelic', 'loginascustomer', 'swagger'];
+        $matches = ['sampledata', 'paypal', 'swissup', 'newrelic', 'loginascustomer'];
         foreach ($matches as $match) {
             if (stristr($moduleName, $match)) {
                 $disableModules[] = $moduleName;
@@ -40,6 +46,9 @@ if (in_array('disable-inventory=true', $argv)) {
         }
     }
 }
+
+$disableModules = array_unique($disableModules);
+sort($disableModules);
 
 echo implode(',', $disableModules).PHP_EOL;
 

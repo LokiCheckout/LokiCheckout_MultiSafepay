@@ -35,8 +35,14 @@ if [ "${ready:-0}" -ne 1 ]; then
 fi
 
 DISABLE_MODULES=`php $GITHUB_WORKSPACE/.github/workflows/get-modules.php disable-bundled=$DISABLE_BUNDLED disable-graphql=$DISABLE_GRAPHQL disable-inventory=$DISABLE_INVENTORY disable-adobe=$DISABLE_ADOBE`
+
+echo "Disable modules: $DISABLE_MODULES"
  
 cd /tmp/magento
+
+test -f app/etc/config.php && rm -f app/etc/config.php
+test -f app/etc/env.php && rm -f app/etc/env.php
+
 php -dmemory_limit=-1 bin/magento setup:install \
   --base-url="${MAGENTO_BASE_URL}" \
   --db-host="${MYSQL_HOST}" \
@@ -61,7 +67,8 @@ php -dmemory_limit=-1 bin/magento setup:install \
   --session-save-redis-port=6379 \
   --cache-backend-redis-server=redis \
   --cache-backend-redis-port=6379 \
-  --disable-modules="$DISABLE_MODULES"
+  --cleanup-database \
+  --disable-modules="$DISABLE_MODULES" || exit 1
 
 bin/magento deploy:mode:set developer
 bin/magento cache:disable full_page
