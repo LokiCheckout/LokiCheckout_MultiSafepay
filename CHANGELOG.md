@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.19] - 17 June 2026
+### Fixed
+- Fix JS error with payment component
+- Lower composer requirements
+
 ## [2.0.18] - 02 June 2026
 ### Fixed
 - Load payment component CSS with fetchpriority=low

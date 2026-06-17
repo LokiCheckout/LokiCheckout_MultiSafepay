@@ -38,7 +38,6 @@ jobs:
       DISABLE_INVENTORY: true
       DISABLE_GRAPHQL: true
       DISABLE_ADOBE: true
-      DISABLE_BUNDLED: true
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
     services:
@@ -110,12 +109,6 @@ jobs:
           test -n "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" || exit 0
           composer config --global --auth http-basic.repo.magento.com "${{ secrets.MAGENTO_MARKETPLACE_PUBLIC_KEY }}" "${{ secrets.MAGENTO_MARKETPLACE_PRIVATE_KEY }}"
 
-      - name: Setup Magento
-        if: env.SKIP_JOB != 'true'
-        run: |
-          cd /tmp/magento
-          $GITHUB_WORKSPACE/.github/workflows/magento-install.sh
-
       - name: Configure composer
         if: env.SKIP_JOB != 'true'
         run: |
@@ -130,22 +123,21 @@ jobs:
           cp -R ${GITHUB_WORKSPACE} /tmp/magento/package-source
           cd /tmp/magento
           composer config repositories.local-source path /tmp/magento/package-source
-          composer require -n --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-core-cli:@dev loki-checkout/magento2-luma:@dev loki-checkout/magento2-sample-data:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence:@dev
+          composer require -n --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-core-cli:@dev loki-checkout/magento2-sample-data:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence:@dev
 
-      - name: Enabling modules and test settings
+      - name: Setup Magento
         if: env.SKIP_JOB != 'true'
         run: |
           cd /tmp/magento
+          $GITHUB_WORKSPACE/.github/workflows/magento-install.sh || true
 
           bin/magento module:enable Yireo_EnableModuleSequence
-          bin/magento module:sequence LokiCheckout_FunctionalTests LokiCheckout_SampleData LokiCheckout_Luma LokiCheckout_CoreCli "${MAGENTO_MODULE}"
-          bin/magento setup:upgrade --keep-generated --no-interaction
+          bin/magento module:sequence LokiCheckout_FunctionalTests LokiCheckout_SampleData LokiCheckout_CoreCli "${MAGENTO_MODULE}"
+          bin/magento setup:upgrade
           bin/magento loki-checkout:sample-data:add-product
           bin/magento loki-checkout:modules:dump
-          bin/magento index:reindex
 
           magerun2 config:store:set loki_checkout/functional_tests/token loki -n
-          bin/magento cache:clean config
 
       - name: Verify Magento installation
         if: env.SKIP_JOB != 'true'
