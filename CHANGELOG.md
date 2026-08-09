@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.20] - 09 August 2026
+### Fixed
+- PLGMAG2V2-912: Add option to show no icon
+
 ## [2.0.19] - 17 June 2026
 ### Fixed
 - Fix JS error with payment component
