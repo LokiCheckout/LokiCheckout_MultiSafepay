@@ -36,5 +36,17 @@
         "psr-4": {
             "LokiCheckout\\MultiSafepay\\": ""
         }
+    },
+    "extra": {
+        "loki": {
+            "countries": [
+                "DE",
+                "DK",
+                "FR",
+                "NL",
+                "PL",
+                "UK"
+            ]
+        }
     }
 }
