@@ -3,9 +3,12 @@ import {setupCheckout} from '@loki/setup-checkout';
 import {test} from '@loki/test';
 
 import {MultiSafepayPortal} from './helpers/multisafepay-objects';
-import multiSafepayConfig from './config/config';
+import multiSafepayConfig, {requiredEnv} from './config/config';
+import {requireEnv} from './helpers/env';
 
 test.describe('MultiSafepay payment test', () => {
+    requireEnv(test, requiredEnv);
+
     test('should allow me to go to the checkout', async ({page, context}) => {
         await setupCheckout(page, context, {
             ...multiSafepayConfig,

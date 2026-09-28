@@ -1,11 +1,14 @@
 import {PaymentMethod, PlaceOrderButton, SuccessPage} from '@loki-checkout/checkout-objects';
 import {setupCheckout} from '@loki/setup-checkout';
 import {test} from '@loki/test';
+import {requireEnv} from '@loki/helper/env';
 
 import {MultiSafepayPortal, MultiSafepayPaymentComponent} from './helpers/multisafepay-objects';
-import multiSafepayConfig from './config/config';
+import multiSafepayConfig, {requiredEnv} from './config/config';
 
 test.describe('American Express', () => {
+    requireEnv(test, requiredEnv);
+
     test('should redirect to payment portal', async ({page, context}) => {
         await setupCheckout(page, context, {
             ...multiSafepayConfig,

@@ -1,11 +1,14 @@
 import {PaymentMethod, PlaceOrderButton} from '@loki-checkout/checkout-objects';
 import {setupCheckout} from '@loki/setup-checkout';
 import {test} from '@loki/test';
+import {requireEnv} from '@loki/helper/env';
 
 import {MultiSafepayPortal} from './helpers/multisafepay-objects';
-import multiSafepayConfig from './config/config';
+import multiSafepayConfig, {requiredEnv} from './config/config';
 
 test.describe('iDeal payment test', () => {
+    requireEnv(test, requiredEnv);
+
     test('should allow me to go to the checkout', async ({page, context}) => {
         await setupCheckout(page, context, {
             ...multiSafepayConfig,

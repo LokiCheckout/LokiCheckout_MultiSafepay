@@ -1,4 +1,6 @@
-import coreConfig from '@loki/config';
+import coreConfig from '@loki-checkout/config';
+
+export const requiredEnv = ['MULTISAFEPAY_TEST_API_KEY'];
 
 export default {
     ...coreConfig,
