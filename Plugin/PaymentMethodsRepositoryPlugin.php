@@ -14,7 +14,7 @@ class PaymentMethodsRepositoryPlugin
 
     public function afterGetDefaultPayment(PaymentMethodsRepository $subject, string $result): string
     {
-        $defaultMethod = trim((string) $this->config->getValue(Config::PRESELECTED_METHOD));
+        $defaultMethod = trim((string) $this->config->getValue(Config::PRESELECTED_METHOD), " \f\n\r\t\v\x00");
 
         if ($defaultMethod === '') {
             return $result;
