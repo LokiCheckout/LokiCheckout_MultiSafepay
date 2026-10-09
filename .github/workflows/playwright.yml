@@ -51,6 +51,9 @@ jobs:
     services:
       php:
         image: yireo/magento2installed:${{ vars.MAGENTO_VERSION || '2.4.8-p3' }}
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           GIT_DEPTH: 1
           GIT_STRATEGY: fetch
@@ -87,6 +90,9 @@ jobs:
 
       mysql:
         image: yireo/mariadb:10
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           MYSQL_DATABASE: magento2
           MYSQL_USER: magento2
@@ -98,6 +104,9 @@ jobs:
 
       opensearch:
         image: yireo/opensearch
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           OPENSEARCH_JAVA_OPTS: "-Xms256m -Xmx256m"
           OPENSEARCH_INITIAL_ADMIN_PASSWORD: "admin"
