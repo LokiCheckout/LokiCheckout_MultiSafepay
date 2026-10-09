@@ -43,6 +43,7 @@ jobs:
       DISABLE_GRAPHQL: ${{ vars.DISABLE_GRAPHQL || false }}
       DISABLE_ADOBE: ${{ vars.DISABLE_ADOBE || false }}
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+      ADDITIONAL_SETTINGS: ${{ secrets.ADDITIONAL_SETTINGS || '{}' }}
 
     services:
       php:
@@ -275,16 +276,7 @@ jobs:
       - name: Run Playwright tests
         if: env.SKIP_JOB != 'true'
         working-directory: /tmp/magento/vendor/loki/magento2-functional-tests/Test/Playwright/
-        env:
-          ALL_SECRETS: ${{ toJSON(secrets) }}
-        shell: bash
         run: |
-          while IFS= read -r name; do
-            value=$(jq -r --arg name "$name" '.[$name]' <<< "$ALL_SECRETS")
-            export "$name=$value"
-          done < <(jq -r 'keys[] | select(. != "GITLAB_TOKEN")' <<< "$ALL_SECRETS")
-          unset ALL_SECRETS
-
           echo "Installing npm dependencies..."
           npm install
           npx playwright install chromium
