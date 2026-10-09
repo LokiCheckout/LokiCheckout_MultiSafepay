@@ -101,6 +101,9 @@ jobs:
 
       redis:
         image: redis:latest
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       opensearch:
         image: yireo/opensearch
