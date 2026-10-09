@@ -1,5 +1,5 @@
 name: Playwright test
-on: ['push', 'pull_request']
+on: [push, pull_request]
 
 jobs:
   playwright:
@@ -275,7 +275,14 @@ jobs:
       - name: Run Playwright tests
         if: env.SKIP_JOB != 'true'
         working-directory: /tmp/magento/vendor/loki/magento2-functional-tests/Test/Playwright/
+        env:
+          ALL_SECRETS: ${{ toJSON(secrets) }}
         run: |
+          while IFS= read -r name; do
+            value=$(jq -r --arg name "$name" '.[$name]' <<< "$ALL_SECRETS")
+            export "$name=$value"
+          done < <(jq -r 'keys[]' <<< "$ALL_SECRETS")
+
           echo "Installing npm dependencies..."
           npm install
           npx playwright install chromium
