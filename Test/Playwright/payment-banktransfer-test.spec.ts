@@ -4,7 +4,7 @@ import {test} from '@loki/test';
 
 import {MultiSafepayPortal} from './helpers/multisafepay-objects';
 import multiSafepayConfig, {requiredEnv} from './config/config';
-import {requireEnv} from './helpers/env';
+import {requireEnv} from '@loki/helper/env';
 
 test.describe('Banktransfer payment test', () => {
     requireEnv(test, requiredEnv);
