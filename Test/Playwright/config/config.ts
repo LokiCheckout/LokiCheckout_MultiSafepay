@@ -1,8 +1,11 @@
 import coreConfig from '@loki-checkout/config';
 
 const additionalSettings = JSON.parse(process.env.ADDITIONAL_SETTINGS || '{}');
+if (!process.env.MULTISAFEPAY_TEST_API_KEY && additionalSettings.MULTISAFEPAY_TEST_API_KEY) {
+    process.env.MULTISAFEPAY_TEST_API_KEY = additionalSettings.MULTISAFEPAY_TEST_API_KEY;
+}
 
-export const requiredEnv = ['ADDITIONAL_SETTINGS'];
+export const requiredEnv = ['MULTISAFEPAY_TEST_API_KEY'];
 
 export default {
     ...coreConfig,
@@ -14,7 +17,7 @@ export default {
         'MultiSafepay_ConnectAdminhtml',
     ],
     secure_config: {
-        'multisafepay/general/test_api_key': additionalSettings.MULTISAFEPAY_TEST_API_KEY || '',
+        'multisafepay/general/test_api_key': process.env.MULTISAFEPAY_TEST_API_KEY || '',
     },
     config: {
         ...coreConfig.config,

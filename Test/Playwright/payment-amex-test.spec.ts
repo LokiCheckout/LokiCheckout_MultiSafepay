@@ -52,6 +52,8 @@ test.describe('American Express', () => {
         const placeOrderButton = new PlaceOrderButton(page);
         await placeOrderButton.click();
 
+        // The direct transaction is created server-side via the MultiSafepay API, which can take longer than the default timeout
+        await page.waitForURL(/checkout\/onepage\/success/, {timeout: 30000});
         await new SuccessPage(page).expectToBeLoaded();
     });
 });
