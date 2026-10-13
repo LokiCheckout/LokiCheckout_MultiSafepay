@@ -87,7 +87,7 @@ use Magento\Framework\View\Element\Template;
                     return false;
                 }
 
-                this.post({
+                await this.post({
                     payload: paymentData.payload,
                     tokenize: paymentData.tokenize ?? false
                 });

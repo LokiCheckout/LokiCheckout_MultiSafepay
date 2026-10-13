@@ -34,11 +34,6 @@ class PaymentComponentViewModel extends CheckoutViewModel
         return false;
     }
 
-    public function isDisabled(): bool
-    {
-        return true;
-    }
-
     public function getJsData(): array
     {
         return [
