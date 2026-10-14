@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.21] - 14 October 2026
+### Fixed
+- Add `trim()` its second argument for PHP 8.6 compatibility
+- Increment dep with `multisafepay/magento2-frontend`
+- Remove PHP 8.1 support, add PHP 8.5 support
+
 ## [2.0.20] - 09 August 2026
 ### Fixed
 - PLGMAG2V2-912: Add option to show no icon
